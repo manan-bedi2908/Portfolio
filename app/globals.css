@@ -1,22 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --bg: #e9f3ff;
-  --bg-2: #f6fbff;
-  --panel: rgba(250, 253, 255, 0.86);
-  --panel-strong: rgba(255, 255, 255, 0.94);
-  --line: rgba(114, 165, 229, 0.36);
-  --ink: #0d233f;
-  --ink-soft: #35577f;
-  --accent: #1f72ff;
-  --accent-2: #00a7e8;
-  --ok: #1e9e66;
-  --warn: #ef8d00;
+  --bg: #f9f4ff;
+  --bg-2: #f2f8ff;
+  --panel: rgba(255, 255, 255, 0.92);
+  --panel-strong: rgba(255, 255, 255, 0.98);
+  --line: rgba(160, 170, 200, 0.34);
+  --ink: #0f1b3d;
+  --ink-soft: #4a5680;
+  --accent: #7c3aed;
+  --accent-2: #28c0f3;
+  --ok: #22c55e;
+  --warn: #f59e0b;
   --radius-xl: 18px;
   --radius-lg: 14px;
   --radius-md: 10px;
-  --shadow: 0 16px 34px rgba(23, 74, 139, 0.16);
-  --shadow-soft: 0 8px 20px rgba(23, 74, 139, 0.08);
+  --shadow: 0 18px 44px rgba(67, 56, 202, 0.18);
+  --shadow-soft: 0 10px 24px rgba(124, 58, 237, 0.12);
 }
 
 * {
@@ -30,37 +30,34 @@ body {
 }
 
 body {
-  font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Sora", "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   min-height: 100vh;
   background:
-    linear-gradient(transparent 31px, rgba(114, 165, 229, 0.07) 32px),
-    linear-gradient(90deg, transparent 31px, rgba(114, 165, 229, 0.07) 32px),
-    radial-gradient(900px 520px at 10% -10%, #ffffff 0%, transparent 46%),
-    radial-gradient(920px 560px at 95% -20%, #d9ebff 0%, transparent 46%),
-    linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 55%, #edf7ff 100%);
-  background-size: 32px 32px, 32px 32px, auto, auto, auto;
+    radial-gradient(1200px 720px at 10% 10%, rgba(124, 58, 237, 0.18), transparent 50%),
+    radial-gradient(960px 640px at 88% 18%, rgba(40, 192, 243, 0.2), transparent 52%),
+    radial-gradient(980px 620px at 30% 78%, rgba(244, 114, 182, 0.18), transparent 50%),
+    linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 50%, #ffffff 100%);
+  background-size: auto, auto, auto, auto;
 }
 
 body.dark-mode {
-  --bg: #081423;
-  --bg-2: #0b1d33;
-  --panel: rgba(14, 31, 51, 0.88);
-  --panel-strong: rgba(18, 38, 62, 0.95);
-  --line: rgba(84, 138, 205, 0.34);
-  --ink: #dbeeff;
-  --ink-soft: #9ec2e8;
-  --accent: #52a8ff;
-  --accent-2: #1cd3ff;
-  --shadow: 0 18px 36px rgba(0, 0, 0, 0.34);
-  --shadow-soft: 0 10px 24px rgba(0, 0, 0, 0.24);
+  --bg: #0c0b1a;
+  --bg-2: #11152b;
+  --panel: rgba(18, 20, 40, 0.9);
+  --panel-strong: rgba(24, 26, 48, 0.94);
+  --line: rgba(124, 58, 237, 0.3);
+  --ink: #e8e9ff;
+  --ink-soft: #b5b9e6;
+  --accent: #a855f7;
+  --accent-2: #22d3ee;
+  --shadow: 0 20px 46px rgba(0, 0, 0, 0.42);
+  --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.26);
   background:
-    linear-gradient(transparent 31px, rgba(88, 145, 215, 0.07) 32px),
-    linear-gradient(90deg, transparent 31px, rgba(88, 145, 215, 0.07) 32px),
-    radial-gradient(900px 520px at 10% -10%, rgba(58, 121, 188, 0.2) 0%, transparent 50%),
-    radial-gradient(920px 560px at 95% -20%, rgba(39, 99, 163, 0.26) 0%, transparent 48%),
-    linear-gradient(160deg, #081423 0%, #0a1d33 56%, #0b213a 100%);
-  background-size: 32px 32px, 32px 32px, auto, auto, auto;
+    radial-gradient(900px 520px at 12% 8%, rgba(168, 85, 247, 0.28), transparent 48%),
+    radial-gradient(980px 560px at 88% 16%, rgba(34, 211, 238, 0.26), transparent 50%),
+    radial-gradient(820px 520px at 30% 78%, rgba(236, 72, 153, 0.22), transparent 52%),
+    linear-gradient(150deg, #0c0b1a 0%, #0f1730 55%, #0d1126 100%);
 }
 
 body.dark-mode .topbar,
@@ -242,17 +239,18 @@ a {
 }
 
 .monogram {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
   color: #fff;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.83rem;
+  font-size: 0.86rem;
   font-weight: 600;
   letter-spacing: 0.06em;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 12px 22px rgba(124, 58, 237, 0.35);
 }
 
 .topbar nav {
@@ -264,11 +262,12 @@ a {
 .topbar nav a {
   padding: 8px 10px;
   border-radius: var(--radius-md);
-  font-size: 0.84rem;
+  font-size: 0.85rem;
   font-family: "IBM Plex Mono", monospace;
   font-weight: 500;
-  color: #174578;
+  color: #1b234a;
   border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .topbar nav a::before {
@@ -284,8 +283,9 @@ a {
 }
 
 .topbar nav a:hover {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.18);
 }
 
 .topbar-controls {
@@ -294,9 +294,9 @@ a {
 }
 
 .ctrl-btn {
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.88);
-  color: #1a4f88;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.88));
+  color: #2a1c4f;
   border-radius: 8px;
   padding: 7px 9px;
   font-size: 0.72rem;
@@ -308,7 +308,7 @@ a {
 .ctrl-btn:hover {
   background: #fff;
   transform: translateY(-1px);
-  box-shadow: 0 8px 14px rgba(27, 88, 161, 0.14);
+  box-shadow: 0 12px 20px rgba(124, 58, 237, 0.18);
 }
 
 .shell {
@@ -327,7 +327,11 @@ a {
 
 .hero {
   border-radius: var(--radius-xl);
-  padding: clamp(18px, 3vw, 30px);
+  padding: clamp(20px, 3.4vw, 34px);
+  border: 1px solid rgba(124, 58, 237, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(244, 244, 255, 0.88));
+  overflow: hidden;
+  position: relative;
 }
 
 .hero-grid {
@@ -335,6 +339,29 @@ a {
   gap: 16px;
   align-items: stretch;
   grid-template-columns: 1.2fr 0.8fr;
+}
+
+.hero-ornament {
+  position: absolute;
+  filter: blur(44px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.hero-ornament-1 {
+  width: 320px;
+  height: 320px;
+  top: -40px;
+  right: 12%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.35), transparent 60%);
+}
+
+.hero-ornament-2 {
+  width: 260px;
+  height: 260px;
+  bottom: -30px;
+  left: 6%;
+  background: radial-gradient(circle, rgba(40, 192, 243, 0.3), transparent 60%);
 }
 
 .kicker {
@@ -431,7 +458,7 @@ h1 span {
   border-radius: var(--radius-md);
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.92);
-  color: #17487c;
+  color: #1d1f3d;
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.8rem;
   font-weight: 500;
@@ -442,6 +469,7 @@ h1 span {
   color: #fff;
   border-color: transparent;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 14px 24px rgba(124, 58, 237, 0.26);
 }
 
 .chip:hover {
@@ -462,7 +490,9 @@ h1 span {
   border-radius: var(--radius-md);
   padding: 12px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.9);
+  background: radial-gradient(circle at 18% 20%, rgba(124, 58, 237, 0.08), transparent 40%),
+    radial-gradient(circle at 82% 12%, rgba(40, 192, 243, 0.08), transparent 40%),
+    rgba(255, 255, 255, 0.96);
   overflow: hidden;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
@@ -503,11 +533,22 @@ h1 span {
 
 .log-console {
   margin-top: 12px;
+  position: relative;
   border: 1px solid rgba(103, 166, 235, 0.38);
-  border-radius: 10px;
-  background: rgba(10, 33, 59, 0.92);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(8, 23, 44, 0.94), rgba(15, 43, 82, 0.88));
   color: #d4ebff;
   overflow: hidden;
+  box-shadow: 0 18px 44px rgba(9, 35, 68, 0.4);
+}
+
+.log-console::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 10px;
+  background: linear-gradient(120deg, rgba(82, 168, 255, 0.14), rgba(28, 211, 255, 0.12));
+  pointer-events: none;
 }
 
 .log-head {
@@ -527,20 +568,144 @@ h1 span {
 
 .log-head span {
   color: #7cf3bb;
+  background: rgba(124, 243, 187, 0.12);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(124, 243, 187, 0.18);
 }
 
 .log-body {
-  padding: 8px 10px 10px;
+  position: relative;
+  padding: 10px 12px 12px;
   display: grid;
-  gap: 5px;
+  gap: 8px;
 }
 
-.log-body p {
-  margin: 0;
+.log-line {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(113, 163, 226, 0.18);
+  box-shadow: 0 10px 20px rgba(7, 26, 51, 0.24);
+  backdrop-filter: blur(2px);
+}
+
+.log-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #7cf3bb 0%, #3be1a0 45%, #1b9d72 100%);
+  box-shadow: 0 0 12px rgba(124, 243, 187, 0.9);
+}
+
+.log-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.log-text {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.72rem;
   color: #9ecfff;
+  margin: 0;
+}
+
+.log-time {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  color: #7cf3bb;
+  opacity: 0.8;
+}
+
+.log-line {
   animation: logFade 340ms ease;
+}
+
+.hero-badges {
+  margin-top: 18px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.badge-pill {
+  border-radius: 14px;
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  background: rgba(255, 255, 255, 0.94);
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  box-shadow: 0 16px 30px rgba(124, 58, 237, 0.15);
+}
+
+.badge-eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6f55c8;
+}
+
+.badge-pill strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.18);
+}
+
+.dot-green {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.dot-cyan {
+  background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+}
+
+.dot-purple {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+}
+
+.marquee {
+  margin-top: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(124, 58, 237, 0.16);
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.12), rgba(40, 192, 243, 0.12));
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: inline-block;
+  padding: 10px 0 10px 12px;
+  animation: marquee 18s linear infinite;
+  white-space: nowrap;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  color: #2c1f59;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes logFade {
@@ -694,12 +859,41 @@ li {
   min-height: 188px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
 }
 
 .tile:hover {
   transform: translateY(-3px);
-  border-color: rgba(58, 136, 238, 0.5);
-  box-shadow: 0 22px 34px rgba(23, 74, 139, 0.2);
+  border-color: rgba(124, 58, 237, 0.35);
+  box-shadow: 0 22px 34px rgba(124, 58, 237, 0.2);
+}
+
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 18% 18%, rgba(124, 58, 237, 0.14), transparent 40%),
+    radial-gradient(circle at 82% 8%, rgba(40, 192, 243, 0.14), transparent 36%);
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+}
+
+.tile:hover::after {
+  opacity: 1;
+}
+
+.tile-expanded {
+  transform: scale(1.03) translateY(-6px);
+  border-color: rgba(124, 58, 237, 0.45);
+  box-shadow: 0 28px 46px rgba(124, 58, 237, 0.25);
+}
+
+.tile-expanded::after {
+  opacity: 1;
 }
 
 .tile h3 {

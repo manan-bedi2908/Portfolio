@@ -134,15 +134,6 @@ const metricDefs = [
   { key: "savings", label: "Savings", target: 1, prefix: "INR ", suffix: "Cr+", detail: "AWS optimization impact" }
 ];
 
-const logTemplates = [
-  "[ingest] p2p.events.window=15m status=healthy",
-  "[retry-guard] npci.mapper.failures trend=down",
-  "[ml-inference] reminder_suggestions latency=41ms",
-  "[funnel] send.money.entry uplift=+14.3%",
-  "[alerts] bin-level anomalies auto-tagged",
-  "[scheduler] retention.model.refresh completed"
-];
-
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
 function formatMetricValue(def, value) {
@@ -154,8 +145,22 @@ export default function Home() {
   const [paletteQuery, setPaletteQuery] = useState("");
   const [crtEnabled, setCrtEnabled] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
+  const [expandedTile, setExpandedTile] = useState(null);
   const [counterValues, setCounterValues] = useState(metricDefs.map(() => 0));
-  const [logs, setLogs] = useState([]);
+  const liveFeed = useMemo(
+    () => [
+      "Now playing: mellow lo-fi on loop.",
+      "Reading: “Project Hail Mary” — paused at chapter 9.",
+      "Next break: brewing a V60 and planning a sunset walk.",
+      "Snack queue: pesto pasta + crisp salad.",
+      "Queued audiobook sample: “The Midnight Library”.",
+      "Reminder: call parents tonight before dinner.",
+      "Stretch timer: 20 pushups + 1 min plank on the hour."
+    ],
+    []
+  );
+  const liveRows = 4;
+  const [liveIndex, setLiveIndex] = useState(0);
 
   useEffect(() => {
     const start = performance.now();
@@ -174,21 +179,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setLogs([
-      `${new Date().toLocaleTimeString("en-GB")} ${logTemplates[0]}`,
-      `${new Date().toLocaleTimeString("en-GB")} ${logTemplates[1]}`,
-      `${new Date().toLocaleTimeString("en-GB")} ${logTemplates[2]}`
-    ]);
+    const id = setInterval(() => {
+      setLiveIndex((prev) => (prev + 1) % liveFeed.length);
+    }, 3400);
+    return () => clearInterval(id);
+  }, [liveFeed.length]);
 
-    let index = 3;
-    const timer = setInterval(() => {
-      const next = `${new Date().toLocaleTimeString("en-GB")} ${logTemplates[index % logTemplates.length]}`;
-      setLogs((prev) => [...prev.slice(-5), next]);
-      index += 1;
-    }, 1400);
-
-    return () => clearInterval(timer);
-  }, []);
+  const displayFeed = useMemo(
+    () => Array.from({ length: liveRows }, (_, i) => liveFeed[(liveIndex + i) % liveFeed.length]),
+    [liveFeed, liveIndex]
+  );
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -285,6 +285,8 @@ export default function Home() {
 
       <main id="home" className="shell">
         <section className="hero glass reveal">
+          <div className="hero-ornament hero-ornament-1" aria-hidden />
+          <div className="hero-ornament hero-ornament-2" aria-hidden />
           <div className="hero-grid">
             <div>
               <p className="kicker">System Profile</p>
@@ -312,9 +314,6 @@ export default function Home() {
                 >
                   Network
                 </a>
-                <a href="tel:+919354510116" className="chip">
-                  Voice Line
-                </a>
               </div>
             </div>
 
@@ -337,14 +336,56 @@ export default function Home() {
             ))}
           </div>
 
+          <div className="hero-badges">
+            <div className="badge-pill">
+              <span className="dot dot-green" aria-hidden />
+              <div>
+                <p className="badge-eyebrow">Reliability Track</p>
+                <strong>99.95% UPI availability</strong>
+              </div>
+            </div>
+            <div className="badge-pill">
+              <span className="dot dot-cyan" aria-hidden />
+              <div>
+                <p className="badge-eyebrow">Automation</p>
+                <strong>30+ AI agent flows in prod</strong>
+              </div>
+            </div>
+            <div className="badge-pill">
+              <span className="dot dot-purple" aria-hidden />
+              <div>
+                <p className="badge-eyebrow">Impact</p>
+                <strong>INR 1 Cr+ infra savings</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="marquee" aria-label="Highlights ticker">
+            <div className="marquee-track">
+              <span>Shipping resilient payments · </span>
+              <span>LLM agents for CRM · </span>
+              <span>Data-led product decisions · </span>
+              <span>Edge-safe rollouts · </span>
+              <span>Observability first · </span>
+            </div>
+          </div>
+
           <article className="log-console">
             <div className="log-head">
               <p>Live Stream</p>
               <span>Status: ONLINE</span>
             </div>
             <div className="log-body">
-              {logs.map((line, index) => (
-                <p key={`${line}-${index}`}>{line}</p>
+              {displayFeed.map((entry, idx) => (
+                <div className="log-line" key={`${liveIndex}-${idx}`}>
+                  <span className="log-dot" aria-hidden />
+                  <div className="log-copy">
+                    <span className="log-text">{entry}</span>
+                    <span className="log-time">
+                      {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    </span>
+                  </div>
+                </div>
               ))}
             </div>
           </article>
@@ -377,12 +418,6 @@ export default function Home() {
                     <span>{item.place}</span>
                   </div>
                 </div>
-                <p className="work-banner">{item.banner}</p>
-                <ul>
-                  {item.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
               </article>
             ))}
           </div>
@@ -395,7 +430,21 @@ export default function Home() {
           </div>
           <div className="grid">
             {projects.map((project) => (
-              <article key={project.title} className="glass tile">
+              <article
+                key={project.title}
+                className={`glass tile ${expandedTile === project.title ? "tile-expanded" : ""}`}
+                role="button"
+                tabIndex={0}
+                onClick={() =>
+                  setExpandedTile((prev) => (prev === project.title ? null : project.title))
+                }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setExpandedTile((prev) => (prev === project.title ? null : project.title));
+                  }
+                }}
+              >
                 <h3>{project.title}</h3>
                 <p>{project.description}</p>
                 {project.href ? (
@@ -518,9 +567,6 @@ export default function Home() {
             </a>
             <a href="/Manan_Bedi_CV.pdf" target="_blank" rel="noreferrer" className="chip">
               Download CV
-            </a>
-            <a href="tel:+919354510116" className="chip">
-              +91 9354510116
             </a>
             <a href="https://github.com/manan-bedi2908" target="_blank" rel="noreferrer" className="chip">
               github.com/manan-bedi2908
