@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const experience = [
   {
@@ -119,10 +119,57 @@ const achievements = [
   "Co-founded ACM-SSCBS and led a 12-member student chapter as President"
 ];
 
+const photos = [
+  {
+    src: "/photos/1.jpg",
+    title: "Golden Gate Glow",
+    caption: "Crisp winter light at the Golden Gate Bridge, San Francisco.",
+    alt: "Manan Bedi standing by the Golden Gate Bridge on a clear day"
+  },
+  {
+    src: "/photos/10.jpg",
+    title: "Hollywood Ridge",
+    caption: "View from Griffith Park with the Hollywood sign in the backdrop.",
+    alt: "Manan Bedi near Griffith Observatory with the Hollywood sign behind"
+  },
+  {
+    src: "/photos/6.jpg",
+    title: "Builders at DevWeek",
+    caption: "On the expo floor chatting about production AI workflows.",
+    alt: "Manan Bedi with another attendee at a DeveloperWeek expo booth"
+  },
+  {
+    src: "/photos/WhatsApp Image 2024-06-08 at 23.25.31 (2).jpeg",
+    title: "Evening Snapshot",
+    caption: "Candid moment from the June 2024 album.",
+    alt: "Personal photo from June 2024 album"
+  },
+  {
+    src: "/photos/WhatsApp Image 2024-06-08 at 23.25.31 (3).jpeg",
+    title: "City Lights",
+    caption: "Another capture from the June 2024 set.",
+    alt: "Personal photo with city backdrop from June 2024 album"
+  },
+  {
+    src: "/photos/WhatsApp Image 2024-06-08 at 23.25.32 (1).jpeg",
+    title: "Night Walk",
+    caption: "Street-side shot from the same June 2024 sequence.",
+    alt: "Personal photo taken at night from June 2024 album"
+  },
+  {
+    src: "/photos/WhatsApp Image 2024-06-08 at 23.25.32 (3).jpeg",
+    title: "Close-Up Frame",
+    caption: "Final pick from the June 2024 uploads.",
+    alt: "Personal close-up photo from June 2024 album"
+  }
+];
+
 const navItems = [
   { label: "Home", href: "#home", hint: "Jump to hero" },
   { label: "Experience", href: "#experience", hint: "Work timeline" },
   { label: "Projects", href: "#projects", hint: "Build log" },
+  { label: "Photos", href: "#photos", hint: "Photo highlights" },
+  { label: "Terminal", href: "#terminal", hint: "Try live commands" },
   { label: "Research", href: "#research", hint: "Papers and talks" },
   { label: "Contact", href: "#contact", hint: "Get in touch" }
 ];
@@ -147,6 +194,14 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [expandedTile, setExpandedTile] = useState(null);
   const [counterValues, setCounterValues] = useState(metricDefs.map(() => 0));
+  const [terminalLines, setTerminalLines] = useState([
+    "Live shell ready. Type `help` to see available commands."
+  ]);
+  const [terminalInput, setTerminalInput] = useState("");
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const terminalRef = useRef(null);
+  const terminalScrollRef = useRef(null);
   const liveFeed = useMemo(
     () => [
       "Now playing: mellow lo-fi on loop.",
@@ -189,6 +244,111 @@ export default function Home() {
     () => Array.from({ length: liveRows }, (_, i) => liveFeed[(liveIndex + i) % liveFeed.length]),
     [liveFeed, liveIndex]
   );
+
+  const terminalPrompt = "visitor@mac-shell ~ %";
+  const terminalInputRef = useRef(null);
+
+  const runCommand = (raw) => {
+    const input = raw.trim();
+    if (!input) return;
+
+    setTerminalLines((prev) => [...prev, `${terminalPrompt} ${input}`]);
+    setHistory((prev) => [...prev, input]);
+    setHistoryIndex(-1);
+
+    const [cmd] = input.split(" ").filter(Boolean);
+    const cmdLower = (cmd ?? "").toLowerCase();
+
+    const push = (lines) =>
+      setTerminalLines((prev) => [...prev, ...(Array.isArray(lines) ? lines : [lines])]);
+
+    switch (cmdLower) {
+      case "help":
+        push([
+          "Available commands:",
+          "help, clear, ls, about, experience, projects, photos, contact, links, download-cv"
+        ]);
+        break;
+      case "clear":
+        setTerminalLines([]);
+        break;
+      case "ls":
+        push("home  experience  projects  photos  research  contact  assets");
+        break;
+      case "about":
+        push("Manan Bedi — product + data leader building reliable, AI-enabled payment journeys.");
+        break;
+      case "experience":
+        push("Recent: Paytm (Team Lead - Sr. Product Analyst, UPI P2P) | Previously: Socio Global Brands, AnalytixWare.");
+        break;
+      case "projects":
+        push(projects.map((p) => `• ${p.title}${p.href ? ` → ${p.href}` : ""}`));
+        break;
+      case "photos":
+        push(photos.map((p) => `• ${p.title} (${p.src})`));
+        break;
+      case "contact":
+        push("Email: mananbedi.tech@gmail.com | LinkedIn: linkedin.com/in/manan-bedi2908/");
+        break;
+      case "links":
+        push([
+          "GitHub: https://github.com/manan-bedi2908",
+          "LinkedIn: https://www.linkedin.com/in/manan-bedi2908/",
+          "CV: /Manan_Bedi_CV.pdf"
+        ]);
+        break;
+      case "download-cv":
+        push("Grab it here: /Manan_Bedi_CV.pdf");
+        break;
+      default:
+        push(`zsh: command not found: ${cmdLower || input}`);
+        break;
+    }
+
+    setTerminalInput("");
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      runCommand(terminalInput);
+    }
+
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setHistoryIndex((prev) => {
+        const next = prev === -1 ? history.length - 1 : Math.max(prev - 1, 0);
+        setTerminalInput(history[next] ?? terminalInput);
+        return next;
+      });
+    }
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setHistoryIndex((prev) => {
+        if (prev === -1) return -1;
+        const next = prev + 1;
+        if (next >= history.length) {
+          setTerminalInput("");
+          return -1;
+        }
+        setTerminalInput(history[next]);
+        return next;
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (terminalScrollRef.current) {
+      terminalScrollRef.current.scrollTop = terminalScrollRef.current.scrollHeight;
+    }
+  }, [terminalLines]);
+
+  useEffect(() => {
+    const focusInput = () => terminalInputRef.current?.focus();
+    if (terminalRef.current) terminalRef.current.addEventListener("click", focusInput);
+    return () => terminalRef.current?.removeEventListener("click", focusInput);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -260,6 +420,8 @@ export default function Home() {
         <nav>
           <a href="#experience">Experience</a>
           <a href="#projects">Projects</a>
+          <a href="#photos">Photos</a>
+          <a href="#terminal">Terminal</a>
           <a href="#research">Research</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -391,6 +553,61 @@ export default function Home() {
           </article>
         </section>
 
+        <section id="terminal" className="pane reveal">
+          <div className="section-head">
+            <p>Live Terminal</p>
+            <h2>Interact with quick commands</h2>
+          </div>
+
+          <article className="glass terminal" ref={terminalRef}>
+            <div className="terminal-head">
+              <span className="traffic traffic-red" aria-hidden />
+              <span className="traffic traffic-yellow" aria-hidden />
+              <span className="traffic traffic-green" aria-hidden />
+              <span className="terminal-title">zsh — portfolio</span>
+            </div>
+
+            <div className="terminal-screen" ref={terminalScrollRef} onClick={() => terminalInputRef.current?.focus()}>
+              {terminalLines.map((line, idx) => (
+                <div key={`${line}-${idx}`} className="terminal-line">
+                  {line}
+                </div>
+              ))}
+              <div className="terminal-input-row">
+                <span className="prompt">{terminalPrompt}</span>
+                <input
+                  ref={terminalInputRef}
+                  value={terminalInput}
+                  onChange={(event) => setTerminalInput(event.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="terminal-input"
+                  spellCheck="false"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="none"
+                  placeholder="Type a command, e.g., help"
+                />
+              </div>
+            </div>
+
+            <div className="terminal-shortcuts">
+              {["help", "ls", "projects", "photos", "contact", "clear"].map((cmd) => (
+                <button
+                  key={cmd}
+                  type="button"
+                  className="chip"
+                  onClick={() => {
+                    setTerminalInput(cmd);
+                    setTimeout(() => runCommand(cmd), 0);
+                  }}
+                >
+                  {cmd}
+                </button>
+              ))}
+            </div>
+          </article>
+        </section>
+
         <section id="experience" className="pane reveal">
           <div className="section-head">
             <p>Experience</p>
@@ -454,6 +671,27 @@ export default function Home() {
                 ) : (
                   <span className="label">Private Build</span>
                 )}
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="photos" className="pane reveal">
+          <div className="section-head">
+            <p>Photo Highlights</p>
+            <h2>Field Notes and Snapshots</h2>
+          </div>
+
+          <div className="photo-grid">
+            {photos.map((photo) => (
+              <article key={photo.src} className="glass photo-card">
+                <div className="photo-frame">
+                  <img src={photo.src} alt={photo.alt} loading="lazy" />
+                </div>
+                <div className="photo-meta">
+                  <h3>{photo.title}</h3>
+                  <p>{photo.caption}</p>
+                </div>
               </article>
             ))}
           </div>
